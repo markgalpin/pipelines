@@ -1,4 +1,17 @@
 resources:
+  - name: mark_PE_gitRepo
+    type: GitRepo
+    configuration:
+      path: markgalpin/project-examples
+      gitProvider: mark_github
+
+  - name: war_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: beta_dev
+      buildName: war_build
+      buildNumber: 1
+
   - name: go_gitRepo
     type: GitRepo
     configuration:
@@ -85,7 +98,7 @@ resources:
         - 167.71.157.57
 
 pipelines:
-  - name: demo_service
+  - name: mark_old_service
     steps:
       - name: go_service_build
         type: Jenkins
@@ -106,8 +119,31 @@ pipelines:
           outputResources:
             - name: svc_promoted_build_info
 
-  - name: demo_app
+  - name: mark_app
     steps:
+      - name: build_war
+        type: Bash
+        configuration:
+          inputResources:
+            - name: mark_PE_gitRepo
+              trigger: true
+          integrations:
+            - name: beta_dev
+        execution:
+          onStart:
+            - rm -rf $run_dir/workspace/jfrog
+            - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false
+            - pushd $res_mark_PE_gitRepo_resourcePath
+            - add_run_variables buildStepName=${step_name}
+            - add_run_variables ${step_name}_buildNumber=${run_number}
+            - add_run_variables ${step_name}_buildName=${pipeline_name}
+            - cd gradle-examples/4/gradle-example-ci-server
+            - ls
+            - jfrog rt bce $pipeline_name $run_number
+            - jfrog rt bag $pipeline_name $run_number
+            - jfrog rt gradle clean artifactoryPublish . --build-name=$pipeline_name --build-number=$run_number
+            - add_run_files /tmp/jfrog/. jfrog
+
       - name: bld_backend
         type: MvnBuild
         configuration:
@@ -219,7 +255,7 @@ pipelines:
           outputResources:
             - name: app_promoted_build_info
 
-  - name: demo_release
+  - name: mark_old_release
     steps:
       - name: bundle
         type: CreateReleaseBundle
