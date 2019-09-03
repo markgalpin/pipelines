@@ -134,7 +134,7 @@ pipelines:
         configuration:
           gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle
           sourceLocation: .
-          configFileLocation: project-examples/gradle-examples/4/gradle-example-ci-server
+          configFileLocation: gradle-examples/4/gradle-example-ci-server
           configFileName: rtgradle.config
           autoPublishBuildInfo: true
           inputResources:
