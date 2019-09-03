@@ -151,8 +151,6 @@ pipelines:
       - name: build_war
         type: Bash
         configuration:
-          inputSteps:
-            - name: build_war_gradlen
           inputResources:
             - name: mark_PE_gitRepo
               trigger: true
@@ -183,6 +181,7 @@ pipelines:
           configFileName: mvn-art-config
           inputSteps:
             - name: build_war
+            - name: build_war_gradlen
           inputResources:
             - name: backend_gitRepo
           integrations:
