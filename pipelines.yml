@@ -153,7 +153,7 @@ pipelines:
         configuration:
           inputResources:
             - name: mark_PE_gitRepo
-              trigger: true
+              trigger: false
           integrations:
             - name: beta_dev
         execution:
@@ -172,6 +172,32 @@ pipelines:
             - add_run_files /tmp/jfrog/. jfrog
             - jfrog rt bp $pipeline_name $run_number
 
+      - name: build_docker_template
+        type: Bash
+        configuration:
+          environmentVariables:
+            dockerImageName: jfrog.local:5000/docker-framework
+            dockerImageTag: ${run_number}
+          inputResources:
+            - name: mark_PE_gitRepo
+              trigger: false
+          integrations:
+            - name: beta_dev
+        execution:
+          onStart:
+            - dockerImageName="jfrog.local:5000/app"             #this is to fix the bug in env vars
+            - dockerImageTag=${run_number}             #this is to fix the bug in env vars
+            - rm -rf $run_dir/workspace/jfrog
+            - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false
+            - pushd $res_backend_gitRepo_resourcePath
+            - add_run_variables buildStepName=${step_name}
+            - add_run_variables ${step_name}_buildNumber=${run_number}
+            - add_run_variables ${step_name}_buildName=${pipeline_name}
+            - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_beta_dev_url} automation/Dockerfile
+            - jfrog rt bce $pipeline_name $run_number
+            - jfrog rt docker-push jfrog.local:5000/app:$run_number docker-local --build-name=$pipeline_name --build-number=$run_number
+            - add_run_files /tmp/jfrog/. jfrog
+
       - name: bld_backend
         type: MvnBuild
         configuration:
@@ -182,6 +208,7 @@ pipelines:
           inputSteps:
             - name: build_war
             - name: build_war_gradlen
+            - name: build_docker_template
           inputResources:
             - name: backend_gitRepo
           integrations:
