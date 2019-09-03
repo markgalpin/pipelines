@@ -124,7 +124,7 @@ pipelines:
       - name: build_war_gradlen
         type: GradleBuild
         configuration:
-          gradlecommand: clean artifactoryPublish
+          gradleCommand: clean artifactoryPublish
           sourceLocation: gradle-examples/4/gradle-example-ci-server
           configFileLocation: gradle-examples/4/gradle-example-ci-server
           configFileName: rtgradle.config
@@ -132,14 +132,16 @@ pipelines:
           inputResources:
             - name: mark_PE_gitRepo
               trigger: true
-          outputResources: war_build_info
+          outputResources:
+            - name: war_build_info
           integrations:
             - name: beta_dev
 
       - name: build_war
         type: Bash
         configuration:
-          inputSteps: build_war_gradlen
+          inputSteps:
+            - name: build_war_gradlen
           inputResources:
             - name: mark_PE_gitRepo
               trigger: true
