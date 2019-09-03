@@ -151,6 +151,8 @@ pipelines:
           mvnCommand: clean install -ntp
           configFileLocation: .
           configFileName: mvn-art-config
+          inputSteps:
+            - name: build_war
           inputResources:
             - name: backend_gitRepo
           integrations:
