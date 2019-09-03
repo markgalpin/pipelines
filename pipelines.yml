@@ -132,7 +132,7 @@ pipelines:
       - name: build_war_gradlen
         type: GradleBuild
         configuration:
-          gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle
+          gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle --debug --stacktrace
           sourceLocation: .
           configFileLocation: gradle-examples/4/gradle-example-ci-server
           configFileName: rtgradle.yaml
