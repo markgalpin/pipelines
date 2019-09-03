@@ -121,9 +121,25 @@ pipelines:
 
   - name: mark_app
     steps:
+      - name: build_war_gradlen
+        type: GradleBuild
+        configuration:
+          gradlecommand: clean artifactoryPublish
+          sourceLocation: gradle-examples/4/gradle-example-ci-server
+          configFileLocation: gradle-examples/4/gradle-example-ci-server
+          configFileName: rtgradle.config
+          autoPublishBuildInfo: true
+          inputResources:
+            - name: mark_PE_gitRepo
+              trigger: true
+          outputResources: war_build_info
+          integrations:
+            - name: beta_dev
+
       - name: build_war
         type: Bash
         configuration:
+          inputSteps: build_war_gradlen
           inputResources:
             - name: mark_PE_gitRepo
               trigger: true
