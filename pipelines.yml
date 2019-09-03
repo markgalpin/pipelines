@@ -141,8 +141,10 @@ pipelines:
             - ls
             - jfrog rt bce $pipeline_name $run_number
             - jfrog rt bag $pipeline_name $run_number
-            - jfrog rt gradle clean artifactoryPublish . --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt gradlec ./gradleconfig.file
+            - jfrog rt gradle "clean artifactoryPublish" ./gradleconfig.file --build-name=$pipeline_name --build-number=$run_number
             - add_run_files /tmp/jfrog/. jfrog
+            - jfrog rt bp $pipeline_name $run_number
 
       - name: bld_backend
         type: MvnBuild
