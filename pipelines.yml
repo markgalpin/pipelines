@@ -132,7 +132,7 @@ pipelines:
         execution:
           onStart:
             - rm -rf $run_dir/workspace/jfrog
-            - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false
+            - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false beta_dev
             - pushd $res_mark_PE_gitRepo_resourcePath
             - add_run_variables buildStepName=${step_name}
             - add_run_variables ${step_name}_buildNumber=${run_number}
@@ -141,8 +141,7 @@ pipelines:
             - ls
             - jfrog rt bce $pipeline_name $run_number
             - jfrog rt bag $pipeline_name $run_number
-            - jfrog rt gradlec gradleconfig.file
-            - jfrog rt gradle "clean artifactoryPublish" gradleconfig.file --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt gradle "clean artifactoryPublish" ./rtgradle.config --build-name=$pipeline_name --build-number=$run_number
             - add_run_files /tmp/jfrog/. jfrog
             - jfrog rt bp $pipeline_name $run_number
 
