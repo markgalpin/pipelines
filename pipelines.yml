@@ -135,7 +135,7 @@ pipelines:
           gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle
           sourceLocation: .
           configFileLocation: gradle-examples/4/gradle-example-ci-server
-          configFileName: rtgradle.config
+          configFileName: rtgradle.yaml
           autoPublishBuildInfo: true
           inputResources:
             - name: mark_PE_gitRepo
@@ -168,7 +168,7 @@ pipelines:
             - ls
             - jfrog rt bce $pipeline_name $run_number
             - jfrog rt bag $pipeline_name $run_number
-            - jfrog rt gradle "clean artifactoryPublish" ./rtgradle.config --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt gradle "clean artifactoryPublish" ./rtgradle.yaml --build-name=$pipeline_name --build-number=$run_number
             - add_run_files /tmp/jfrog/. jfrog
             - jfrog rt bp $pipeline_name $run_number
 
