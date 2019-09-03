@@ -125,8 +125,8 @@ pipelines:
         type: GradleBuild
         configuration:
           gradleCommand: clean artifactoryPublish
-          sourceLocation: mark_PE_gitrepo/gradle-examples/4/gradle-example-ci-server
-          configFileLocation: mark_PE_gitrepo/gradle-examples/4/gradle-example-ci-server
+          sourceLocation: project-examples/gradle-examples/4/gradle-example-ci-server
+          configFileLocation: project-examples/gradle-examples/4/gradle-example-ci-server
           configFileName: rtgradle.config
           autoPublishBuildInfo: true
           inputResources:
@@ -138,7 +138,7 @@ pipelines:
             - name: beta_dev
         execution:
           onStart:
-            - ls
+            - ls -al
 
       - name: build_war
         type: Bash
