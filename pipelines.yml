@@ -12,74 +12,74 @@ resources:
       buildName: war_build
       buildNumber: 1
 
-  - name: go_gitRepo
+  - name: old_go_gitRepo
     type: GitRepo
     configuration:
       path: avinci/swampup-go-service
       gitProvider: avinci_github
 
-  - name: testRes
+  - name: old_testRes
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt
       buildName: svc_build
       buildNumber: 1
 
-  - name: svc_build_info
+  - name: old_svc_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt
       buildName: svc_build
       buildNumber: 1
 
-  - name: svc_promoted_build_info
+  - name: old_svc_promoted_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt
       buildName: svc_build
       buildNumber: 1
 
-  - name: backend_gitRepo
+  - name: old_backend_gitRepo
     type: GitRepo
     configuration:
       path: avinci/swampup-java-backend-service
       gitProvider: avinci_github
 
-  - name: app_build_info
+  - name: old_app_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt
       buildName: backend_build
       buildNumber: 1
 
-  - name: app_promoted_build_info
+  - name: old_app_promoted_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt
       buildName: backend_build
       buildNumber: 1
 
-  - name: frontend_gitRepo
+  - name: old_frontend_gitRepo
     type: GitRepo
     configuration:
       path: avinci/swampup-vue-frontend
       gitProvider: avinci_github
 
-  - name: releaseBundle
+  - name: old_releaseBundle
     type: ReleaseBundle
     configuration:
       sourceDistribution: demoDist
       name: demo_rb
       version: v1.0.0
 
-  - name: signedBundle
+  - name: old_signedBundle
     type: ReleaseBundle
     configuration:
       sourceDistribution: demoDist
       name: demo_rb
       version: v1.0.0
 
-  - name: distributionRules
+  - name: old_distributionRules
     type: DistributionRule
     configuration:
       sourceDistribution: demoDist
@@ -90,7 +90,7 @@ resources:
         - "CN"
         - "GB"
 
-  - name: deploy_vm
+  - name: old_deploy_vm
     type: VmCluster
     configuration:
       sshKey: deploySsh
