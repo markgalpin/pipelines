@@ -99,6 +99,14 @@ resources:
 
 pipelines:
   - name: mark_old_service
+    configuration:
+      runtime:
+        type: image
+        image:
+          auto:
+            language: java
+            versions:
+              - "openjdk8"
     steps:
       - name: go_service_build
         type: Jenkins
