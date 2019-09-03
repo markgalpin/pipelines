@@ -5,6 +5,12 @@ resources:
       path: markgalpin/project-examples
       gitProvider: mark_github
 
+  - name: mark_AF_gitRepo
+    type: GitRepo
+    configuration:
+      path: markgalpin/automation-framework
+      gitProvider: mark_github
+
   - name: war_build_info
     type: BuildInfo
     configuration:
@@ -179,8 +185,8 @@ pipelines:
             dockerImageName: jfrog.local:5000/docker-framework
             dockerImageTag: ${run_number}
           inputResources:
-            - name: mark_PE_gitRepo
-              trigger: false
+            - name: mark_AF_gitRepo
+              trigger: true
           integrations:
             - name: beta_dev
         execution:
@@ -189,9 +195,7 @@ pipelines:
             - dockerImageTag=${run_number}             #this is to fix the bug in env vars
             - rm -rf $run_dir/workspace/jfrog
             - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false
-            - pushd $res_mark_PE_gitRepo_resourcePath
-            - ls -al
-            - cd automation/docker-framework
+            - pushd $res_mark_AF_gitRepo_resourcePath
             - add_run_variables buildStepName=${step_name}
             - add_run_variables ${step_name}_buildNumber=${run_number}
             - add_run_variables ${step_name}_buildName=${pipeline_name}
