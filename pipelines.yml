@@ -215,7 +215,7 @@ pipelines:
           targetRepository: docker-release
           status: "PROMOTED"
           comment: "This is a promotion by pipelines"
-          copy: true
+          copy: false
           integrations:
             - name: beta_dev
           inputResources:
@@ -291,7 +291,7 @@ pipelines:
           targetRepository: docker-release
           status: "PROMOTED"
           comment: "This is a promotion by pipelines"
-          copy: true
+          copy: false
           integrations:
             - name: beta_dev
           inputResources:
