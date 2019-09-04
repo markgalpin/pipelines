@@ -110,7 +110,7 @@ resources:
     configuration:
       sourceDistribution: beta_dist
       serviceName: "*"
-      siteName: "*"
+      siteName: "artifactory-edge1-dev"
       cityName: "*"
       countryCodes:
         - "IN"
