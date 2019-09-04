@@ -144,7 +144,7 @@ pipelines:
       - name: build_war_gradlen
         type: GradleBuild
         configuration:
-          gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle --debug --stacktrace
+          gradleCommand: clean artifactoryPublish -b gradle-examples/4/gradle-example-ci-server/build.gradle
           sourceLocation: .
           configFileLocation: gradle-examples/4/gradle-example-ci-server
           configFileName: rtgradle.yaml
@@ -156,30 +156,6 @@ pipelines:
             - name: war_build_info
           integrations:
             - name: beta_dev
-
-      - name: build_war
-        type: Bash
-        configuration:
-          inputResources:
-            - name: mark_PE_gitRepo
-              trigger: false
-          integrations:
-            - name: beta_dev
-        execution:
-          onStart:
-            - rm -rf $run_dir/workspace/jfrog
-            - retry_command jfrog rt config --url $int_beta_dev_url --user $int_beta_dev_user --apikey $int_beta_dev_apikey --interactive=false beta_dev
-            - pushd $res_mark_PE_gitRepo_resourcePath
-            - add_run_variables buildStepName=${step_name}
-            - add_run_variables ${step_name}_buildNumber=${run_number}
-            - add_run_variables ${step_name}_buildName=${pipeline_name}_${step_name}
-            - cd gradle-examples/4/gradle-example-ci-server
-            - ls
-            - jfrog rt bce $pipeline_name $run_number
-            - jfrog rt bag $pipeline_name $run_number
-            - jfrog rt gradle "clean artifactoryPublish" ./rtgradle.yaml --build-name=$pipeline_name --build-number=$run_number
-            - add_run_files /tmp/jfrog/. jfrog
-            - jfrog rt bp $pipeline_name $run_number
 
       - name: build_docker_template
         type: Bash
@@ -242,7 +218,6 @@ pipelines:
             - name: mark_AA_gitRepo
               trigger: true
           inputSteps:
-            - name: build_war
             - name: build_war_gradlen
             - name: promote_docker_template
           integrations:
