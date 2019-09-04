@@ -252,7 +252,7 @@ pipelines:
               trigger: true
           inputSteps:
             - name: build_war_gradlen
-            - name: promote_docker_template
+            - name: latest_docker_template
           integrations:
             - name: beta_dev
         execution:
