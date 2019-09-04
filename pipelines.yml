@@ -285,7 +285,7 @@ pipelines:
             docker_repository: demo-pipelines
             artifactory_address: jfrog.local:5000
           integrations:
-            #- name: demoEdge
+            - name: beta_edge
           inputResources:
             #- name: deploy_vm
             - name: markg_app_promoted_build_info
