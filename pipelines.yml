@@ -209,12 +209,13 @@ pipelines:
           outputResources:
             - name: markg_template_build_info
 
-      - name: promote_docker_template
+      - name: promote_docker_template_build
         type: PromoteBuild
         configuration:
           targetRepository: docker-release
           status: "PROMOTED"
           comment: "This is a promotion by pipelines"
+          copy: true
           integrations:
             - name: beta_dev
           inputResources:
@@ -290,6 +291,7 @@ pipelines:
           targetRepository: docker-release
           status: "PROMOTED"
           comment: "This is a promotion by pipelines"
+          copy: true
           integrations:
             - name: beta_dev
           inputResources:
