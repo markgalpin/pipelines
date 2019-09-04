@@ -211,6 +211,26 @@ pipelines:
             - jfrog rt bp ${step_name}_buildName ${step_name}_buildNumber
             - add_run_files /tmp/jfrog/. jfrog
 
+      - name: promote_docker_template
+        type: Bash
+        configuration:
+          environmentVariables:
+            dockerImageName: jfrog.local:5000/docker-framework
+            dockerImageTag: ${run_number}
+          inputResources:
+            - name: mark_AF_gitRepo
+              trigger: false
+          integrations:
+            - name: beta_dev
+          inputSteps:
+            - name: build_docker_template
+        execution:
+          onStart:
+            - dockerImageTag=${run_number}
+            - pushd $res_mark_AF_gitRepo_resourcePath
+            - sed -E "s/@/${dockerImageTag}/" retag.json > retag_out.json
+            - curl -u$int_beta_dev_user:$int_beta_dev_apikey "${int_beta_dev_url}/api/docker/$targetRepo/v2/promote" -X POST -H 'Content-Type: application/json' -T retag_out.json
+
       - name: build_app
         type: Bash
         configuration:
@@ -223,7 +243,7 @@ pipelines:
           inputSteps:
             - name: build_war
             - name: build_war_gradlen
-            - name: build_docker_template
+            - name: promote_docker_template
           integrations:
             - name: beta_dev
         execution:
