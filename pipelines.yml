@@ -212,7 +212,7 @@ pipelines:
       - name: promote_docker_template
         type: PromoteBuild
         configuration:
-          targetRepository: demo-pipelines
+          targetRepository: docker-release
           integrations:
             - name: demoArt
           inputResources:
@@ -285,7 +285,7 @@ pipelines:
       - name: promote_app_build
         type: PromoteBuild
         configuration:
-          targetRepository: demo-pipelines
+          targetRepository: docker-release
           integrations:
             - name: demoArt
           inputResources:
