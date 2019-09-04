@@ -109,8 +109,8 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: beta_dist
-      serviceName: "artifactory-edge1-dev"
-      siteName: "*"
+      serviceName: "*"
+      siteName: "artifactory-edge1-dev"
       cityName: "*"
       countryCodes:
         - "CN"
