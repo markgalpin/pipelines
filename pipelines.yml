@@ -202,13 +202,13 @@ pipelines:
             - add_run_variables buildStepName=${step_name}
             - add_run_variables ${step_name}_buildNumber=${run_number}
             - add_run_variables ${step_name}_buildName=${pipeline_name}_${step_name}
-            - jfrog rt dl --spec=downloadspec.json --build-name=${step_name}_buildName --build-number=${step_name}_buildNumber
+            - jfrog rt dl --spec=downloadspec.json --build-name=${${step_name}_buildName} --build-number=${${step_name}_buildNumber}
             - docker login -u $int_beta_dev_user -p $int_beta_dev_apikey artifactory-dev.jfrogbeta.com
             - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_beta_dev_url} .
-            - jfrog rt bce ${step_name}_buildName ${step_name}_buildNumber
-            - jfrog rt bag --config=./bag-config.yml ${step_name}_buildName ${step_name}_buildNumber
-            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=$pipeline_name --build-number=$run_number
-            - jfrog rt bp ${step_name}_buildName ${step_name}_buildNumber
+            - jfrog rt bce ${${step_name}_buildName} ${${step_name}_buildNumber}
+            - jfrog rt bag --config=./bag-config.yml ${${step_name}_buildName} ${${step_name}_buildNumber}
+            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=${${step_name}_buildName}  --build-number=${${step_name}_buildNumber}
+            - jfrog rt bp ${${step_name}_buildName} ${${step_name}_buildNumber}
             - add_run_files /tmp/jfrog/. jfrog
 
       - name: promote_docker_template
