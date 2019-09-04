@@ -230,7 +230,7 @@ pipelines:
             - pushd $res_mark_AF_gitRepo_resourcePath
             - sed -E "s/@/${dockerImageTag}/" retag.json > retag_out.json
             - add_run_variables docker_retag_url=${int_beta_dev_url}/api/docker/$targetRepo/v2/promote
-            - curl -u$int_beta_dev_user:$int_beta_dev_apikey ${docker_retag_url} -X POST -H 'Content-Type: application/json' -T retag_out.json
+            - "curl -u$int_beta_dev_user:$int_beta_dev_apikey ${docker_retag_url} -X POST -H 'Content-Type: application/json' -T retag_out.json"
 
       - name: build_app
         type: Bash
