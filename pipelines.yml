@@ -111,10 +111,6 @@ resources:
       sourceDistribution: beta_dist
       serviceName: "*"
       siteName: "artifactory-edge1-dev"
-      cityName: "*"
-      countryCodes:
-        - "CN"
-        - "GB"
 
   - name: old_deploy_vm
     type: VmCluster
