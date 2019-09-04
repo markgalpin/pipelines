@@ -279,7 +279,7 @@ pipelines:
           outputResources:
             - name: markg_app_promoted_build_info
 
-  - name: mark_old_release
+  - name: mark_release_docker_app
     steps:
       - name: bundle
         type: CreateReleaseBundle
