@@ -60,14 +60,14 @@ resources:
   - name: markg_app_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: demoArt
+      sourceArtifactory: beta_dev
       buildName: app_build
       buildNumber: 1
 
   - name: markg_app_promoted_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: demoArt
+      sourceArtifactory: beta_dev
       buildName: app_build
       buildNumber: 1
 
