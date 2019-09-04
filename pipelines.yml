@@ -328,9 +328,7 @@ pipelines:
             - name: demoEdge
           inputResources:
             - name: deploy_vm
-            - name: svc_promoted_build_info
-              trigger: false
-            - name: app_promoted_build_info
+            - name: markg_app_promoted_build_info
               trigger: false
           inputSteps:
             - name: distribute
