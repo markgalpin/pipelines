@@ -203,7 +203,9 @@ pipelines:
             - docker login -u $int_beta_dev_user -p $int_beta_dev_apikey artifactory-dev.jfrogbeta.com
             - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_beta_dev_url} .
             - jfrog rt bce $pipeline_name $run_number
+            - jfrog rt bag --config=./bag-config.yml $pipeline_name $run_number
             - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt bp $pipeline_name $run_number
             - add_run_files /tmp/jfrog/. jfrog
 
       - name: bld_backend
