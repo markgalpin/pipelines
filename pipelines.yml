@@ -109,7 +109,7 @@ resources:
     type: DistributionRule
     configuration:
       sourceDistribution: beta_dist
-      serviceName: "*"
+      serviceName: "dev-jpd3"
       siteName: "*"
       cityName: "*"
       countryCodes:
