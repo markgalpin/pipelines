@@ -91,24 +91,24 @@ resources:
       path: avinci/swampup-vue-frontend
       gitProvider: avinci_github
 
-  - name: old_releaseBundle
+  - name: markg_releaseBundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: demoDist
-      name: demo_rb
+      sourceDistribution: beta_dist
+      name: docker_app_rb
       version: v1.0.0
 
-  - name: old_signedBundle
+  - name: markg_signedBundle
     type: ReleaseBundle
     configuration:
-      sourceDistribution: demoDist
-      name: demo_rb
+      sourceDistribution: beta_dist
+      name: docker_app_rb
       version: v1.0.0
 
-  - name: old_distributionRules
+  - name: markg_distributionRules
     type: DistributionRule
     configuration:
-      sourceDistribution: demoDist
+      sourceDistribution: beta_dist
       serviceName: "*"
       siteName: "*"
       cityName: "*"
@@ -124,26 +124,6 @@ resources:
         - 167.71.157.57
 
 pipelines:
-  - name: mark_old_service
-    steps:
-      - name: go_service_build
-        type: Jenkins
-        configuration:
-          integrations:
-            - name: demoJenkins
-          outputResources:
-            - name: svc_build_info
-
-      - name: promote_svc_build
-        type: PromoteBuild
-        configuration:
-          targetRepository: demo-pipelines
-          integrations:
-            - name: demoArt
-          inputResources:
-            - name: svc_build_info
-          outputResources:
-            - name: svc_promoted_build_info
 
   - name: mark_app
     configuration:
@@ -304,18 +284,16 @@ pipelines:
       - name: bundle
         type: CreateReleaseBundle
         configuration:
-          releaseBundleName: demo_rb
+          releaseBundleName: docker_app_rb
           releaseBundleVersion: v1.0.$run_number
           dryRun: false
           sign: false
           description: "some random test description"
           inputResources:
-            - name: svc_promoted_build_info
-              trigger: false
-            - name: app_promoted_build_info
-              trigger: false
+            - name: markg_app_promoted_build_info
+              trigger: true
           outputResources:
-            - name: releaseBundle
+            - name: markg_releaseBundle
           releaseNotes:
             syntax: markdown
             content: |
@@ -327,17 +305,17 @@ pipelines:
         type: SignReleaseBundle
         configuration:
           inputResources:
-            - name: releaseBundle
+            - name: markg_releaseBundle
           outputResources:
-            - name: signedBundle
+            - name: markg_signedBundle
 
       - name: distribute
         type: DistributeReleaseBundle
         configuration:
           dryRun: false
           inputResources:
-            - name: signedBundle
-            - name: distributionRules
+            - name: markg_signedBundle
+            - name: markg_distributionRules
 
       - name: deploy
         type: Bash
