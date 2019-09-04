@@ -205,7 +205,7 @@ pipelines:
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: build_docker_templates
+            - name: build_docker_template
           outputResources:
             - name: markg_template_build_info
 
@@ -228,10 +228,10 @@ pipelines:
           inputResources:
             - name: mark_AF_gitRepo
               trigger: false
+            - name: markg_template_promoted_build_info
+              trigger: true
           integrations:
             - name: beta_dev
-          inputSteps:
-            - name: build_docker_template
         execution:
           onStart:
             - dockerImageTag=${run_number}
