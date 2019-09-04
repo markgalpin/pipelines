@@ -273,7 +273,7 @@ pipelines:
             - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_beta_dev_url} .
             - jfrog rt bce ${pipeline_name}_${step_name} $run_number
             - jfrog rt bag --config=./bag-config.yml ${pipeline_name}_${step_name} $run_number
-            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=$pipeline_name_${step_name} --build-number=$run_number
+            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=${pipeline_name}_${step_name} --build-number=$run_number
             #- jfrog rt bp ${pipeline_name}_${step_name} $run_number
             - add_run_files /tmp/jfrog/. jfrog
 
