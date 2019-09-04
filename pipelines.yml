@@ -114,6 +114,8 @@ resources:
       cityName: "*"
       countryCodes:
         - "IN"
+        - "CN"
+        - "GB"
 
   - name: old_deploy_vm
     type: VmCluster
